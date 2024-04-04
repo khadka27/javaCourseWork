@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.time.LocalDate;
 import com.ecom.model.userModel;
 import com.ecom.utils.stringUtils;
 
@@ -118,7 +118,61 @@ public class DatabaseController {
 		}
 	}
 
+	public static userModel getStudentByUsername(String userName) {
+	    try (Connection con = getConn()) {
+	        PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE username = ?");
+	        ps.setString(1, userName);
+	        ResultSet rs = ps.executeQuery();
 
+	        if (rs.next()) {
+	            String username = rs.getString("userName");
+	            String firstName = rs.getString("firstName");
+	            String lastName = rs.getString("lastName");
+	            String gender = rs.getString("gender");
+	            String email = rs.getString("email");
+	            String phoneNumber = rs.getString("phoneNumber"); // corrected column name
+	            String password = rs.getString("password");
+	            String city = rs.getString("city");
+	            String province = rs.getString("province");
+	            String country = rs.getString("country");
+	            String postalCode = rs.getString("postalCode");
+
+	            // Construct and return the userModel object
+	            return new userModel(username, firstName, lastName, phoneNumber, null, email, password, city, province,
+	                    country, postalCode, gender); // Passing null for birthday as it's not retrieved
+	        }
+	    } catch (SQLException | ClassNotFoundException ex) {
+	        ex.printStackTrace(); // Handle or log the exception properly
+	    }
+	    return null; // Return null if no user with the given username is found
+	}
+
+
+	public static boolean updateUser(userModel user) throws Throwable {
+	    boolean success = false;
+	    try (Connection con = getConn()) {
+	        String query = "UPDATE users SET firstName = ?, lastName = ?, gender = ?, email = ?, phoneNumber = ?, "
+	                + "city = ?, province = ?, country = ?, postalCode = ? WHERE userName = ?";
+	        PreparedStatement ps = con.prepareStatement(query);
+	        ps.setString(1, user.getFirstName());
+	        ps.setString(2, user.getLastName());
+	        ps.setString(3, user.getGender());
+	        ps.setString(4, user.getEmail());
+	        ps.setString(5, user.getPhoneNumber());
+	        ps.setString(6, user.getCity());
+	        ps.setString(7, user.getProvince());
+	        ps.setString(8, user.getCountry());
+	        ps.setString(9, user.getPostalCode());
+	        ps.setString(10, user.getUserName());
+
+	        int rowsUpdated = ps.executeUpdate();
+	        success = rowsUpdated > 0;
+	    } catch (SQLException | ClassNotFoundException ex) {
+	        ex.printStackTrace();
+	    }
+	    return success;
+	}
 
 
 }
+

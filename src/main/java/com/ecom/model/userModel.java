@@ -85,8 +85,8 @@ public class userModel {
 	}
 
 
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
+	public void setBirthday(LocalDate birthdayParam) {
+		this.birthday = birthdayParam;
 	}
 
 
@@ -161,6 +161,8 @@ public class userModel {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	
 	
 	

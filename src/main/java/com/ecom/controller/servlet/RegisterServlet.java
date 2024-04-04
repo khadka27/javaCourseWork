@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -51,6 +53,18 @@ public class RegisterServlet extends HttpServlet {
 		int result = db.addUser(userModel);
 
 		if (result > 0) {
+			HttpSession session = request.getSession();
+			session.setAttribute(userUtils.USER_NAME, userName);
+			session.setAttribute(userUtils.FIRST_NAME, firstName);
+			session.setAttribute(userUtils.LAST_NAME, lastName);
+			session.setAttribute(userUtils.PHONE_NUMBER, phoneNumber);
+			session.setAttribute(userUtils.BIRTHDAY, birthday);
+			session.setAttribute(userUtils.EMAIL, email);
+			session.setAttribute(userUtils.CITY, city);
+			session.setAttribute(userUtils.PROVINCE, province);
+			session.setAttribute(userUtils.COUNTRY, country);
+			session.setAttribute(userUtils.POSTAL_CODE, postalCode);
+			session.setAttribute(userUtils.GENDER,gender);
 			response.sendRedirect(request.getContextPath() + userUtils.LOGIN_PAGE + "?" + userUtils.ERROR_MESSAGE + "="
 					+ userUtils.SUCCESS_REGISTER_MESSAGE);
 		} else {
