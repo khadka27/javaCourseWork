@@ -1,163 +1,254 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile Modal</title>
+<title>User Profile</title>
 <style>
-/* Modal styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: none;
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f7f7f7;
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    text-align: center;
+.container {
+	display: flex;
+	min-height: 100vh;
+	/* Ensure container stretches to at least full viewport height */
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover, .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Avatar styles */
-.avatar-container {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto 20px;
+.sidebar {
+	width: 30%;
+	background-color: #2c3e50;
+	color: #fff;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin-bottom: 20px;
 }
 
-/* Table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
+.profile-Detiles, .profile-edit {
+	display: block;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    position: relative;
+.profile-edit {
+	display: none;
 }
 
-th {
-    background-color: #f2f2f2;
+.options {
+	margin-top: 20px;
 }
 
-/* Button styles */
-.btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 10px;
+.options ul {
+	list-style-type: none;
+	padding: 0;
 }
 
-.btn-secondary {
-    background-color: #ccc;
+.options li {
+	margin-bottom: 10px;
 }
 
-/* Input styles */
-.input-field {
-    width: calc(100% - 16px); /* Adjust width for padding and border */
-    border: 1px solid #ddd;
-    padding: 6px;
-    box-sizing: border-box;
-    display: none; /* Initially hide input fields */
+.options a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.options a:hover {
+	color: black;
+	transform: scale(5); /* Zoom effect */
+	transition: transform 0.3s;
+}
+
+.content {
+	flex: 1;
+	padding: 20px;
+	margin-right: 200px;
+}
+
+.profile-heading {
+	margin-bottom: 20px;
+}
+
+.profile-heading h2 {
+	margin: 0;
+	font-size: 24px;
+	color: #333;
+}
+
+.profile-label {
+	font-weight: bold;
+	color: #333;
+}
+
+.profile-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.profile-table th, .profile-table td {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+}
+
+.profile-edit input[type="text"] {
+	width: calc(100% - 20px);
+	/* Take up full width of parent with a little padding */
+	padding: 8px;
+	margin: 4px 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.profile-edit button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+.profile-edit button.cancel {
+	background-color: #ff5555;
+}
+
+.profile-edit button:hover {
+	background-color: #45a049;
 }
 </style>
 </head>
 <body>
+	<div class="container">
+		<div class="sidebar">
+			<img src="https://www.w3schools.com/howto/img_avatar.png"
+				alt="Avatar" class="avatar">
+			<div class="name">
+				<p id="username"><%=(String) session.getAttribute("userName")%></p>
+			</div>
+			<div class="options">
+				<ul>
+					<li><a href="#" id="edit-profile">Edit Profile</a></li>
+					<li><a href="#" id="edit-profile">Delete Account</a></li>
+					<li><a href="#" id="edit-profile">Customer Care</a></li>
+					<li><a href="#" id="edit-profile">Logout</a></li>
+					<!-- Add more options as needed -->
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="profile-heading">
+				<h2>User Profile</h2>
+			</div>
+			<div class="profile-Detiles">
+				<table class="profile-table">
+					<tr>
+						<th scope="row">First Name</th>
+						<td><%=(String) session.getAttribute("firstName")%></td>
+					</tr>
+					<tr>
+						<th scope="row">Last Name</th>
+						<td><%=(String) session.getAttribute("lastName")%></td>
+					</tr>
+					<tr>
+						<th scope="row">PhoneNumber</th>
+						<td><%=(String) session.getAttribute("phoneNumber")%></td>
+					</tr>
+					<tr>
+						<th scope="row">BirthDay</th>
+						<td><%= session.getAttribute("birthday") != null ? ((java.time.LocalDate) session.getAttribute("birthday")).toString() : "" %></td>
 
-<!-- Modal -->
-<div id="profileModel" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="avatar-container">
-            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar">
-        </div>
-        <h2>User Profile</h2>
-        <table id="profileTable">
-            <tr>
-                <th>Attribute</th>
-                <th>Value</th>
-            </tr>
-            <!-- Repeat for other attributes -->
-        </table>
-        <div id="buttonGroup">
-            <button class="btn" id="editBtn">Edit</button>
-            <button class="btn btn-secondary" id="saveBtn" style="display: none;">Save</button>
-            <button class="btn btn-secondary" id="closeBtn">Close</button>
-            <button class="btn btn-secondary" id="backBtn" style="display: none;">Back</button>
-        </div>
-    </div>
-</div>
+					</tr>
+					<tr>
+						<th scope="row">Email</th>
+						<td><%=(String) session.getAttribute("email")%></td>
+					</tr>
+					<tr>
+						<th scope="row">City</th>
+						<td><%=(String) session.getAttribute("city")%></td>
+					</tr>
+					<!-- Add more rows for other profile details -->
+				</table>
+			</div>
+			<div class="profile-edit">
+				<form action="../EditProfile" method="post">
+					<table class="profile-table">
+						<tr>
+							<th scope="row">First Name</th>
+							<td><input type="text" name="firstName"
+								value="<%=(String) session.getAttribute("firstName")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="lastName"
+								value="<%=(String) session.getAttribute("lastName")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="phoneNumber"
+								value="<%=(String) session.getAttribute("phoneNumber")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><%= session.getAttribute("birthday") != null ? ((java.time.LocalDate) session.getAttribute("birthday")).toString() : "" %></td>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        let editProfile = false;
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="email"
+								value="<%=(String) session.getAttribute("email")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="city"
+								value="<%=(String) session.getAttribute("city")%>"></td>
+						</tr>
+						<!-- Add more rows for other editable fields -->
+					</table>
+					<button type="submit">Save</button>
+					<button type="button" class="cancel" onclick="cancelEdit()">Cancel</button>
+				</form>
+			</div>
+		</div>
+	</div>
 
-        $("#editBtn").click(function() {
-            if (editProfile) {
-                $(".input-field").hide();
-                $(".value").show();
-                $("#editBtn").text("Edit");
-                $("#saveBtn").hide();
-            } else {
-                $(".input-field").show();
-                $(".value").hide();
-                $("#editBtn").text("Back");
-                $("#saveBtn").show();
-            }
-            editProfile = !editProfile;
-        });
+	<script>
+		// Get DOM elements
+		const editProfileLink = document.getElementById('edit-profile');
+		const profileDetiles = document.querySelector('.profile-Detiles');
+		const profileEdit = document.querySelector('.profile-edit');
 
-        $("#saveBtn").click(function() {
-            // Add code to save changes
-            $(".input-field").each(function() {
-                let newValue = $(this).val();
-                $(this).prev(".value").text(newValue);
-            });
-            $("#editBtn").trigger("click");
-        });
+		// Function to toggle between profile details and edit form
+		function toggleProfileEdit() {
+			profileDetiles.style.display = 'none';
+			profileEdit.style.display = 'block';
+		}
 
-        $(".close").click(function() {
-            $("#profileModel").hide();
-        });
-    });
-</script>
+		// Event listener for clicking on the "Edit Profile" link
+		editProfileLink.addEventListener('click', function(event) {
+			event.preventDefault();
+			toggleProfileEdit();
+		});
+
+		// Function to cancel edit and display profile details
+		function cancelEdit() {
+			profileDetiles.style.display = 'block';
+			profileEdit.style.display = 'none';
+		}
+	</script>
 </body>
 </html>
