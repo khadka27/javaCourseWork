@@ -10,4 +10,6 @@ public class stringUtils {
 
 	public static final String GET_HASHED_PASSWORD = "SELECT password FROM users WHERE userName = ?";
 
+	public static final String GET_LOGIN_ADMIN_INFOS = "SELECT password FROM users WHERE userName = ?";
+
 }

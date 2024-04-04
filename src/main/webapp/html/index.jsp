@@ -1,3 +1,19 @@
+    <%
+        // Check if session is null
+        HttpSession session1 = request.getSession(false);
+        if(session == null || session.getAttribute("userName") == null) {
+            // Redirect to login page
+            response.sendRedirect("login.jsp");
+        } else {
+            // Session exists, user is logged in
+            String username = (String) session.getAttribute("userName");
+    %>
+           
+    <%
+        }
+    %>
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>

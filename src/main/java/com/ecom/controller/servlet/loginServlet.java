@@ -22,64 +22,6 @@ public class loginServlet extends HttpServlet  {
 
 	DatabaseController db = new DatabaseController();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public loginServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		// TODO Auto-generated method stub
-//		String userName = request.getParameter(userUtils.USER_NAME);
-//		String password = request.getParameter(userUtils.PASSWORD);
-//		String hashedPasswordDB = db.getHashedPassword(userName);
-//		System.out.println("Hashed Password: " + hashedPasswordDB);
-//		if (hashedPasswordDB != null && hashedPasswordDB.contains("$")) {
-//			String[] parts = hashedPasswordDB.split("\\$");
-//			String extractedSalt = parts[2];
-//			String extractedHash = parts[3];
-//
-//			String hashedPasswordSalt = "$2a$" + extractedSalt + "$" + extractedHash;
-//
-//			if (BCrypt.checkpw(password, hashedPasswordSalt)) {
-//				
-//				  int loginResult = db.getStudentLoginInfo(userName, hashedPasswordSalt);
-//				 if (loginResult == 1) {
-//				 
-//				// Successful login
-////				HttpSession session = request.getSession();
-////
-////				session.setAttribute("username", userName);
-////				session.setMaxInactiveInterval(30 * 60);// Storing username in session
-//				response.sendRedirect(request.getContextPath() + userUtils.WELCOME_PAGE);
-//
-//			} else {
-//
-//				request.setAttribute("errorMessage", "Incorrect username or password");
-//				RequestDispatcher dispatcher = request.getRequestDispatcher(userUtils.WELCOME_PAGE);
-//
-//				dispatcher.forward(request, response);
-////		            request.getRequestDispatcher(studentUtils.LOGIN_PAGE).forward(request, response);
-//				/*
-//				 * } else { response.sendRedirect("login.jsp?error=true"); } //
-//				 */
-//			}
-//			}
-//			
-//
-//	}
-//	}
-//	/**
-//	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-//	 *      response)
-//	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -102,19 +44,31 @@ public class loginServlet extends HttpServlet  {
 	        String hashedPasswordSalt = "$2a$" + extractedSalt + "$" + extractedHash;
 
 	        if (BCrypt.checkpw(password, hashedPasswordSalt)) {
-	            int loginResult = db.getStudentLoginInfo(userName, hashedPasswordSalt);
+	            int loginResult = db.getUserLoginInfo(userName, hashedPasswordSalt); // Assuming separate method for user login
 	            if (loginResult == 1) {
-	                // Successful login
+	                // Successful user login
 	                HttpSession session = request.getSession();
-
-	                session.setAttribute("username", userName);
-	                session.setMaxInactiveInterval(30 * 60); // Storing username in session
-	                response.sendRedirect(request.getContextPath() + userUtils.WELCOME_PAGE);
+	                session.setAttribute("userName", userName);
+	                session.setAttribute("role", "user"); // Set user role in session
+	                session.setMaxInactiveInterval(30 * 60);
+	                response.sendRedirect(request.getContextPath() + userUtils.WELCOME_PAGE); // Redirect to user welcome page
 	            } else {
-	                // Incorrect username or password
-	                request.setAttribute("errorMessage", "Incorrect username or password");
-	                RequestDispatcher dispatcher = request.getRequestDispatcher(userUtils.LOGIN_PAGE);
-	                dispatcher.forward(request, response);
+	            	
+	                // Check admin login
+	                loginResult = db.getAdminLoginInfo(userName, hashedPasswordSalt); // Assuming separate method for admin login
+	                if (loginResult == 1) {
+	                    // Successful admin login
+	                    HttpSession session = request.getSession();
+	                    session.setAttribute("userName", userName);
+	                    session.setAttribute("role", "admin"); // Set admin role in session
+	                    session.setMaxInactiveInterval(30 * 60);
+	                    response.sendRedirect(request.getContextPath() + userUtils.ADMIN_PAGE); // Redirect to admin welcome page
+	                } else {
+	                    // Incorrect username or password for both user and admin
+	                    request.setAttribute("errorMessage", "Incorrect username or password");
+	                    RequestDispatcher dispatcher = request.getRequestDispatcher(userUtils.LOGIN_PAGE);
+	                    dispatcher.forward(request, response);
+	                }
 	            }
 	        } else {
 	            // Incorrect username or password
@@ -122,12 +76,9 @@ public class loginServlet extends HttpServlet  {
 	            RequestDispatcher dispatcher = request.getRequestDispatcher(userUtils.LOGIN_PAGE);
 	            dispatcher.forward(request, response);
 	        }
-	    } else {
-	        // Incorrect username or password
-	        request.setAttribute("errorMessage", "Incorrect username or password");
-	        RequestDispatcher dispatcher = request.getRequestDispatcher(userUtils.LOGIN_PAGE);
-	        dispatcher.forward(request, response);
+	        
 	    }
-	}
+	  }
+	
 }
 

@@ -52,9 +52,33 @@ public class DatabaseController {
 		
 		
 	}
-	public int getStudentLoginInfo(String userName, String password) {
+	
+	//user login info
+	public int getUserLoginInfo(String userName, String password) {
 		try (Connection con = getConn()) {
 			PreparedStatement ps = con.prepareStatement(stringUtils.GET_LOGIN_USER_INFOS);
+			ps.setString(1, userName);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				// User name and password match in the database
+				return 1;
+			} else {
+				// No matching record found
+				return 0;
+			}
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace(); // Log the exception for debugging
+			return -1;
+
+		}
+	}
+	
+	// admin login info
+	public int getAdminLoginInfo(String userName, String password) {
+		try (Connection con = getConn()) {
+			PreparedStatement ps = con.prepareStatement(stringUtils.GET_LOGIN_ADMIN_INFOS);
 			ps.setString(1, userName);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
@@ -93,6 +117,8 @@ public class DatabaseController {
 			return null;
 		}
 	}
+
+
 
 
 }

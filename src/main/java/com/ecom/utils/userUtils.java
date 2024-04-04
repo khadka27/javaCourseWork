@@ -34,6 +34,7 @@ public class userUtils {
 	public static final String LOGIN_PAGE = "/html/login.jsp";
 	public static final String REGISTER_PAGE = "/register.jsp";
 	public static final String WELCOME_PAGE = "/html/index.jsp";
+	public static final String ADMIN_PAGE = "/html/admin.jsp";
 	// End JSP Routes
 	
 	// Start Servlet Route
