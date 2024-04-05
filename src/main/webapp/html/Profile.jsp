@@ -169,6 +169,10 @@ body {
 						<td><%=(String) session.getAttribute("phoneNumber")%></td>
 					</tr>
 					<tr>
+						<th scope="row">Gender</th>
+						<td><%=(String) session.getAttribute("gender")%></td>
+					</tr>
+					<tr>
 						<th scope="row">BirthDay</th>
 						<td><%= session.getAttribute("birthday") != null ? ((java.time.LocalDate) session.getAttribute("birthday")).toString() : "" %></td>
 
@@ -181,7 +185,23 @@ body {
 						<th scope="row">City</th>
 						<td><%=(String) session.getAttribute("city")%></td>
 					</tr>
-					<!-- Add more rows for other profile details -->
+
+					<tr>
+						<th scope="row">Province</th>
+						<td><%=(String) session.getAttribute("province")%></td>
+						
+						</tr>
+						<tr>
+						<th scope="row">Country</th>
+						<td><%=(String) session.getAttribute("country")%></td>
+						</tr>
+						
+						<tr>
+						<th scope="row">PostalCode</th>
+						<td><%=(String) session.getAttribute("postalCode")%></td>
+						</tr>
+						
+						<!-- Add more rows for other profile details -->
 				</table>
 			</div>
 			<div class="profile-edit">
@@ -202,11 +222,7 @@ body {
 							<td><input type="text" name="phoneNumber"
 								value="<%=(String) session.getAttribute("phoneNumber")%>"></td>
 						</tr>
-						<tr>
-							<th scope="row">Last Name</th>
-							<td><%= session.getAttribute("birthday") != null ? ((java.time.LocalDate) session.getAttribute("birthday")).toString() : "" %></td>
 
-						</tr>
 						<tr>
 							<th scope="row">Last Name</th>
 							<td><input type="text" name="email"
@@ -216,6 +232,21 @@ body {
 							<th scope="row">Last Name</th>
 							<td><input type="text" name="city"
 								value="<%=(String) session.getAttribute("city")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="province"
+								value="<%=(String) session.getAttribute("province")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="country"
+								value="<%=(String) session.getAttribute("country")%>"></td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td><input type="text" name="postalCode"
+								value="<%=(String) session.getAttribute("postalCode")%>"></td>
 						</tr>
 						<!-- Add more rows for other editable fields -->
 					</table>

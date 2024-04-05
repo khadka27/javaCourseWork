@@ -85,9 +85,6 @@ public class userModel {
 	}
 
 
-	public void setBirthday(LocalDate birthdayParam) {
-		this.birthday = birthdayParam;
-	}
 
 
 	public String getEmail() {
@@ -158,6 +155,12 @@ public class userModel {
 
 
 	public static void setPassword(String hashedPassword) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void setBirthDate(LocalDate birthday) {
 		// TODO Auto-generated method stub
 		
 	}
