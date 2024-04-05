@@ -20,21 +20,9 @@ body {
 	/* Ensure container stretches to at least full viewport height */
 }
 
-.sidebar {
-	width: 30%;
-	background-color: #2c3e50;
-	color: #fff;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-}
 
-.avatar {
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	margin-bottom: 20px;
-}
+
+
 
 .profile-Detiles, .profile-edit {
 	display: block;
@@ -43,36 +31,12 @@ body {
 .profile-edit {
 	display: none;
 }
-
-.options {
-	margin-top: 20px;
-}
-
-.options ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-.options li {
-	margin-bottom: 10px;
-}
-
-.options a {
-	color: #fff;
-	text-decoration: none;
-	font-size: 16px;
-}
-
-.options a:hover {
-	color: black;
-	transform: scale(5); /* Zoom effect */
-	transition: transform 0.3s;
-}
-
 .content {
-	flex: 1;
-	padding: 20px;
-	margin-right: 200px;
+    margin-left: 100px;
+    flex: 1;
+    padding: 20px;
+    margin-right: 500px;
+    
 }
 
 .profile-heading {
@@ -134,22 +98,10 @@ body {
 </head>
 <body>
 	<div class="container">
-		<div class="sidebar">
-			<img src="https://www.w3schools.com/howto/img_avatar.png"
-				alt="Avatar" class="avatar">
-			<div class="name">
-				<p id="username"><%=(String) session.getAttribute("userName")%></p>
-			</div>
-			<div class="options">
-				<ul>
-					<li><a href="#" id="edit-profile">Edit Profile</a></li>
-					<li><a href="#" id="edit-profile">Delete Account</a></li>
-					<li><a href="#" id="edit-profile">Customer Care</a></li>
-					<li><a href="#" id="edit-profile">Logout</a></li>
-					<!-- Add more options as needed -->
-				</ul>
-			</div>
+		<div id="sidebar">
+			<%@include file="sidebar.jsp"%>
 		</div>
+
 		<div class="content">
 			<div class="profile-heading">
 				<h2>User Profile</h2>
@@ -174,7 +126,9 @@ body {
 					</tr>
 					<tr>
 						<th scope="row">BirthDay</th>
-						<td><%= session.getAttribute("birthday") != null ? ((java.time.LocalDate) session.getAttribute("birthday")).toString() : "" %></td>
+						<td><%=session.getAttribute("birthday") != null
+		? ((java.time.LocalDate) session.getAttribute("birthday")).toString()
+		: ""%></td>
 
 					</tr>
 					<tr>
@@ -189,19 +143,19 @@ body {
 					<tr>
 						<th scope="row">Province</th>
 						<td><%=(String) session.getAttribute("province")%></td>
-						
-						</tr>
-						<tr>
+
+					</tr>
+					<tr>
 						<th scope="row">Country</th>
 						<td><%=(String) session.getAttribute("country")%></td>
-						</tr>
-						
-						<tr>
+					</tr>
+
+					<tr>
 						<th scope="row">PostalCode</th>
 						<td><%=(String) session.getAttribute("postalCode")%></td>
-						</tr>
-						
-						<!-- Add more rows for other profile details -->
+					</tr>
+
+					<!-- Add more rows for other profile details -->
 				</table>
 			</div>
 			<div class="profile-edit">
@@ -280,6 +234,54 @@ body {
 			profileDetiles.style.display = 'block';
 			profileEdit.style.display = 'none';
 		}
+	</script>
+
+	<script>
+		// Function to load sidebar content using AJAX
+		function loadSidebar() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("sidebar").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "sidebar.jsp", true);
+			xhttp.send();
+		}
+
+		// Function to load profile content dynamically without refreshing the page
+		function loadProfileContent(page) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.querySelector(".content").innerHTML = this.responseText;
+					// If the page is "delete-profile", load the sidebar again
+					if (page === "delete-profile") {
+						loadSidebar();
+					}
+				}
+			};
+			xhttp.open("GET", page + ".jsp", true);
+			xhttp.send();
+		}
+
+		// Event listeners for sidebar links
+		document.getElementById("edit-profile").addEventListener("click",
+				function(event) {
+					event.preventDefault();
+					loadProfileContent("edit-profile");
+				});
+
+		document.getElementById("delete-profile").addEventListener("click",
+				function(event) {
+					event.preventDefault();
+					loadProfileContent("delete-profile");
+				});
+
+		// Load the sidebar initially
+		window.onload = function() {
+			loadSidebar();
+		};
 	</script>
 </body>
 </html>
