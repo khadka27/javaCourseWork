@@ -15,6 +15,17 @@
 			<servlet-name>RegisterServlet</servlet-name>
 			<url-pattern>/RegisterServlet</url-pattern>
 		</servlet-mapping>
+
+		<servlet>
+			<servlet-name>EditProfile</servlet-name>
+			<servlet-class>com.ecom.controller.servlet.EditProfile
+			</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>EditProfile</servlet-name>
+			<url-pattern>/EditProfile</url-pattern>
+		</servlet-mapping>
+
 		<display-name>coursework</display-name>
 		<welcome-file-list>
 			<welcome-file>index.html</welcome-file>
@@ -24,7 +35,9 @@
 			<welcome-file>default.htm</welcome-file>
 			<welcome-file>default.jsp</welcome-file>
 		</welcome-file-list>
-		
-		
+
+
+
+
 	</web-app>
 </element>
