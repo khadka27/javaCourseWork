@@ -162,24 +162,6 @@ public class DatabaseController {
 	        PreparedStatement ps = con.prepareStatement(query);
 	        ps.setString(1, user.getFirstName());
 	        ps.setString(2, user.getLastName());
-//	        if (user.getGender() != null && !user.getGender().isEmpty()) {
-//	            ps.setString(3, user.getGender());
-//	        } else {
-//	        	System.out.println("umm");
-//	            // Provide a default gender value or handle the case appropriately
-//	            ps.setString(3, "Unknown");
-//	        }
-//
-//
-//
-//	        if (user.getBirthday() != null) {
-//	            ps.setDate(4, java.sql.Date.valueOf(user.getBirthday()));
-//	        } else {
-//	        	System.out.println("Date is null");
-//	            ps.setNull(4, java.sql.Types.DATE);
-//	        }
-
-
 	        ps.setString(3, user.getEmail());
 	        ps.setString(4, user.getPhoneNumber());
 	        ps.setString(5, user.getCity());
@@ -195,6 +177,18 @@ public class DatabaseController {
 	    }
 	    return success;
 	}
+//delect user
+	public static int deleteUser(String userName) {
+        try (Connection con = getConn();
+             PreparedStatement ps = con.prepareStatement(stringUtils.DELETE_USER)) {
+            ps.setString(1, userName);
+            return ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
 
 
 
