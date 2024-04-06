@@ -204,84 +204,39 @@ body {
 						</tr>
 						<!-- Add more rows for other editable fields -->
 					</table>
-					<button type="submit">Save</button>
+					<button id="save"type="submit" class="saveButton">Save</button>
 					<button type="button" class="cancel" onclick="cancelEdit()">Cancel</button>
 				</form>
 			</div>
 		</div>
 	</div>
 
-	<script>
-		// Get DOM elements
-		const editProfileLink = document.getElementById('edit-profile');
-		const profileDetiles = document.querySelector('.profile-Detiles');
-		const profileEdit = document.querySelector('.profile-edit');
+    <script>
+        // Get DOM elements
+        const editProfileLink = document.getElementById('edit-profile');
+        const profileDetiles = document.querySelector('.profile-Detiles');
+        const profileEdit = document.querySelector('.profile-edit');
 
-		// Function to toggle between profile details and edit form
-		function toggleProfileEdit() {
-			profileDetiles.style.display = 'none';
-			profileEdit.style.display = 'block';
-		}
+        // Function to toggle between profile details and edit form
+        function toggleProfileEdit() {
+            profileDetiles.style.display = 'none';
+            profileEdit.style.display = 'block';
+        }
 
-		// Event listener for clicking on the "Edit Profile" link
-		editProfileLink.addEventListener('click', function(event) {
-			event.preventDefault();
-			toggleProfileEdit();
-		});
+        // Event listener for clicking on the "Edit Profile" link
+        editProfileLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            toggleProfileEdit();
+        });
 
-		// Function to cancel edit and display profile details
-		function cancelEdit() {
-			profileDetiles.style.display = 'block';
-			profileEdit.style.display = 'none';
-		}
-	</script>
+        // Function to cancel edit and display profile details
+        function cancelEdit() {
+            profileDetiles.style.display = 'block';
+            profileEdit.style.display = 'none';
+        }
+    </script>
 
-	<script>
-		// Function to load sidebar content using AJAX
-		function loadSidebar() {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("sidebar").innerHTML = this.responseText;
-				}
-			};
-			xhttp.open("GET", "sidebar.jsp", true);
-			xhttp.send();
-		}
 
-		// Function to load profile content dynamically without refreshing the page
-		function loadProfileContent(page) {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.querySelector(".content").innerHTML = this.responseText;
-					// If the page is "delete-profile", load the sidebar again
-					if (page === "delete-profile") {
-						loadSidebar();
-					}
-				}
-			};
-			xhttp.open("GET", page + ".jsp", true);
-			xhttp.send();
-		}
-
-		// Event listeners for sidebar links
-		document.getElementById("edit-profile").addEventListener("click",
-				function(event) {
-					event.preventDefault();
-					loadProfileContent("edit-profile");
-				});
-
-		document.getElementById("delete-profile").addEventListener("click",
-				function(event) {
-					event.preventDefault();
-					loadProfileContent("delete-profile");
-				});
-
-		// Load the sidebar initially
-		window.onload = function() {
-			loadSidebar();
-		};
-	</script>
+	
 </body>
 </html>
